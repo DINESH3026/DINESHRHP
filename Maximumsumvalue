@@ -1,0 +1,49 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+
+        int[][] arr = new int[n][m];
+
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                arr[i][j] = sc.nextInt();
+            }
+        }
+
+        int[][] dp = new int[n][m];
+
+        // Base case
+        for(int j = 0; j < m; j++) {
+            dp[0][j] = arr[0][j];
+        }
+
+        // DP transition
+        for(int i = 1; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+
+                int best = Integer.MIN_VALUE;
+
+                for(int k = 0; k < m; k++) {
+                    if(k != j) {
+                        best = Math.max(best, dp[i - 1][k]);
+                    }
+                }
+
+                dp[i][j] = arr[i][j] + best;
+            }
+        }
+
+        int ans = Integer.MIN_VALUE;
+
+        for(int j = 0; j < m; j++) {
+            ans = Math.max(ans, dp[n - 1][j]);
+        }
+
+        System.out.println(ans);
+    }
+}
